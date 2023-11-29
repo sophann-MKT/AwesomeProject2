@@ -1,14 +1,14 @@
 import React from 'react';
 import {View, Text} from 'react-native';
+import FAIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-const Setting = () => {
+const List = () => {
   return (
     <View>
-      <Text>Setting</Text>
-      <Icon name="user" />
+      <Text>cart</Text>
+      <Icon name="list-ul" />
     </View>
   );
 };
 
-export default Setting;
+export default List;
