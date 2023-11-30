@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Text, View, Image} from 'react-native';
+import {getProducts} from '../../src/service/apiService';
+import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
+import {Box, Text, HStack, VStack, Pressable, View, Image} from 'native-base';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Home = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const getProducts = async () => {
+  const fetchData = async () => {
     try {
-      const response = await fetch('https://fakestoreapi.com/products');
-      const json = await response.json();
-      setData(json);
+      const jsonData = await getProducts();
+      setData(jsonData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -18,33 +20,64 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getProducts();
+    fetchData();
   }, []);
 
   return (
-    <View style={{flex: 2, padding: 24, backgroundColor: 'white'}}>
+    <View style={styles.container}>
+      <Text textTransform="uppercase" fontSize="sm" fontWeight="bold">
+        All
+      </Text>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <FlatList
           data={data}
           keyExtractor={({id}) => id}
+          numColumns={2}
           renderItem={({item}) => (
-            <>
-              <Text>{item.price}</Text>
+            <View style={styles.itemContainer}>
               <Text>{item.category}</Text>
-              <Text>{item.rating.rate}</Text>
-              <Text>{item.rating.count}</Text>
-              <Image
-                style={{width: 200, height: 200}}
-                source={{uri: `${item.image}`}}
-              />
-            </>
+              <View style={styles.imageContainer}>
+                <Image
+                  style={styles.image}
+                  source={{uri: `${item.image}`}}
+                  alt=""
+                />
+              </View>
+              <Text>{item.price}$</Text>
+            </View>
           )}
         />
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: 'white',
+  },
+  itemContainer: {
+    flex: 1,
+    alignItems: 'center',
+    margin: 8,
+    padding: 16,
+    borderWidth: 0.4,
+    borderRadius: 8,
+  },
+  imageContainer: {
+    width: 100,
+    height: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 50,
+    height: 50,
+  },
+});
 
 export default Home;

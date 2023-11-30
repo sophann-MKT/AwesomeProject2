@@ -1,14 +1,15 @@
+import {Checkbox, Box, Text, View} from 'native-base';
 import React from 'react';
-import {View, Text} from 'react-native';
+import {StyleSheet, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Profile = () => {
+function Register({navigation}) {
   return (
     <View>
       <Text>profile</Text>
-      <Icon name="user" />
+      <Icon name="user-circle" />
     </View>
   );
-};
+}
 
-export default Profile;
+export default Register;
