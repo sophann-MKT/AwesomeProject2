@@ -44,11 +44,7 @@ export default function App() {
     <NativeBaseProvider>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen
-            name="Home2"
-            component={Home2}
-            // options={{headerShown: false}}
-          />
+          <Stack.Screen name="Home2" component={Home2} />
           <Stack.Screen name="Detail" component={Detail} />
         </Stack.Navigator>
       </NavigationContainer>

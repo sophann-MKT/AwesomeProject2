@@ -1,15 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getProducts} from '../../src/service/apiService';
 import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
-import {
-  Box,
-  Text,
-  HStack,
-  View,
-  Image,
-  NativeBaseProvider,
-  Button,
-} from 'native-base';
+import {Box, Text, HStack, View, Image, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Home = ({navigation}) => {
@@ -64,7 +56,7 @@ const Home = ({navigation}) => {
               <Text>{item.price}$</Text>
               <Button
                 title="Go to Details... again"
-                onPress={() => navigation.navigate('Detail')}
+                onPress={() => navigation.navigate('Detail', {product: item})}
               />
             </View>
           )}
