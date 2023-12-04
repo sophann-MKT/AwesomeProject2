@@ -1,6 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {getProducts} from '../../src/service/apiService';
-import {ActivityIndicator, FlatList, StyleSheet} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  TouchableHighlight,
+} from 'react-native';
 import {Box, Text, HStack, View, Image, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -39,12 +44,17 @@ const Home = ({navigation}) => {
             <View style={styles.itemContainer}>
               <View style={styles.imageContainer}>
                 <Text>{item.category}</Text>
-                <Image
-                  style={styles.image}
-                  source={{uri: `${item.image}`}}
-                  resizeMode="contain"
-                  alt=""
-                />
+                <TouchableHighlight
+                  onPress={() =>
+                    navigation.navigate('Detail', {product: item})
+                  }>
+                  <Image
+                    style={styles.image}
+                    source={{uri: `${item.image}`}}
+                    resizeMode="contain"
+                    alt=""
+                  />
+                </TouchableHighlight>
               </View>
               <HStack space={1}>
                 <Icon name="star" color="gold" />
@@ -55,9 +65,16 @@ const Home = ({navigation}) => {
               </HStack>
               <Text>{item.price}$</Text>
               <Button
-                title="Go to Details... again"
-                onPress={() => navigation.navigate('Detail', {product: item})}
-              />
+                _text={{
+                  color: 'white',
+                }}
+                shadow="4"
+                bg="blue.400"
+                p={1}
+                borderRadius="md"
+                onPress={() => navigation.navigate('Cart', {product: item})}>
+                addToCart
+              </Button>
             </View>
           )}
         />
@@ -83,6 +100,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 3, height: 2},
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    gap: 7,
   },
   imageContainer: {
     width: 100,
@@ -92,8 +110,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 70,
+    height: 70,
   },
 });
 

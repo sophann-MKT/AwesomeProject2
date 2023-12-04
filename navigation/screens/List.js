@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const List = () => {
   return (
     <View>
-      <Text>cart</Text>
+      <Text>list</Text>
       <Icon name="list-ul" />
     </View>
   );

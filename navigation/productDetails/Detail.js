@@ -10,7 +10,6 @@ function Detail({route, navigation}) {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        // gap: 10,
         backgroundColor: 'white',
       }}
       p="20">
@@ -42,10 +41,6 @@ function Detail({route, navigation}) {
         <Text fontStyle="italic">Review:{product.rating.count}</Text>
       </View>
       <Text>{product.description}</Text>
-      <Button
-        title="Go back to homepage"
-        onPress={() => navigation.navigate('Home')}
-      />
     </View>
   );
 }

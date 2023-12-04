@@ -10,6 +10,9 @@ import List from './navigation/screens/List';
 import Profile from './navigation/screens/Profile';
 import Detail from './navigation/productDetails/Detail';
 
+import {Provider} from 'react-redux';
+import store from './src/redux/store';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -41,13 +44,15 @@ function Home2() {
 }
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name="Home2" component={Home2} />
-          <Stack.Screen name="Detail" component={Detail} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Home2" component={Home2} />
+            <Stack.Screen name="Detail" component={Detail} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </Provider>
   );
 }
