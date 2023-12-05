@@ -12,6 +12,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const Home = ({navigation}) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [cart, setCart] = useState([]);
+
+  const addToCart = product => {
+    setCart([...cart, product]);
+  };
 
   const fetchData = async () => {
     try {
@@ -72,7 +77,10 @@ const Home = ({navigation}) => {
                 bg="blue.400"
                 p={1}
                 borderRadius="md"
-                onPress={() => navigation.navigate('Cart', {product: item})}>
+                onPress={() => {
+                  addToCart(item);
+                  navigation.navigate('Cart', {product: item});
+                }}>
                 addToCart
               </Button>
             </View>
