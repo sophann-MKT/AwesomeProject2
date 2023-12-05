@@ -1,22 +1,20 @@
 import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
+import {addToCart} from '../../src/redux/actions';
 import {getProducts} from '../../src/service/apiService';
+
 import {
   ActivityIndicator,
   FlatList,
   StyleSheet,
   TouchableHighlight,
 } from 'react-native';
-import {Box, Text, HStack, View, Image, Button} from 'native-base';
+import {Text, HStack, View, Image, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, addToCart}) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [cart, setCart] = useState([]);
-
-  const addToCart = product => {
-    setCart([...cart, product]);
-  };
 
   const fetchData = async () => {
     try {
@@ -78,7 +76,7 @@ const Home = ({navigation}) => {
                 p={1}
                 borderRadius="md"
                 onPress={() => {
-                  addToCart(item);
+                  addToCart([item]);
                   navigation.navigate('Cart', {product: item});
                 }}>
                 addToCart
@@ -123,4 +121,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+const mapStateToProps = state => ({
+  cart: state.cartReducer.cartItems,
+});
+
+const mapDispatchToProps = {
+  addToCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

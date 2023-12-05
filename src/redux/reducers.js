@@ -1,7 +1,7 @@
 import {ADD_TO_CART} from './actions';
 
 const initialState = {
-  cartItems: [],
+  cartItem: [],
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const cartReducer = (state = initialState, action) => {
     case ADD_TO_CART:
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        cartItem: [...state.cartItem, action.payload],
       };
     default:
       return state;
