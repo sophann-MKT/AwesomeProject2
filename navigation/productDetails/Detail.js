@@ -1,7 +1,7 @@
 import {View, Text, Button, Image, HStack} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function Detail({route, navigation}) {
+function Detail({route}) {
   const {product} = route.params;
 
   return (

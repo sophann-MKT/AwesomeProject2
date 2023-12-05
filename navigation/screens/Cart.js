@@ -1,18 +1,16 @@
+import React from 'react';
 import {View, Text, Image, HStack, VStack, Button} from 'native-base';
-import React, {useState} from 'react';
+import {
+  incrementAmmountItem,
+  decrementAmmountItem,
+  quantity,
+} from '../../src/redux/product/productSlice';
+import {useSelector, useDispatch} from 'react-redux';
 
-function Cart({route, navigation}) {
+function Cart({route}) {
   const {product} = route.params;
-  const [quantity, setQuantity] = useState(1);
-
-  const increment = () => {
-    setQuantity(quantity + 1);
-  };
-  const decrement = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
+  const dispatch = useDispatch();
+  const quantity = useSelector(state => state.product.quantity);
 
   return (
     <VStack p="3" bg="white" shadow="3">
@@ -29,13 +27,22 @@ function Cart({route, navigation}) {
             {product.category}
           </Text>
           <Text>${product.price}</Text>
+          <Button bg="red.500" p="1" w="2/3">
+            Remmove
+          </Button>
         </VStack>
         <VStack alignItems="center">
-          <Button bg="blue.400" p="2" onPress={increment}>
+          <Button
+            bg="blue.400"
+            p="2"
+            onPress={() => dispatch(incrementAmmountItem())}>
             +
           </Button>
           <Text>{quantity}</Text>
-          <Button bg="blue.400" p="2" onPress={decrement}>
+          <Button
+            bg="blue.400"
+            p="2"
+            onPress={() => dispatch(decrementAmmountItem())}>
             -
           </Button>
         </VStack>

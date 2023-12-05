@@ -10,8 +10,8 @@ import List from './navigation/screens/List';
 import Profile from './navigation/screens/Profile';
 import Detail from './navigation/productDetails/Detail';
 
-import {Provider} from 'react-redux';
 import store from './src/redux/store';
+import {Provider} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

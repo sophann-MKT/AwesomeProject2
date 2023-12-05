@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import {addToCart} from '../../src/redux/actions';
 import {getProducts} from '../../src/service/apiService';
-
 import {
   ActivityIndicator,
   FlatList,
@@ -12,7 +9,7 @@ import {
 import {Text, HStack, View, Image, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Home = ({navigation, addToCart}) => {
+const Home = ({navigation}) => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -76,7 +73,6 @@ const Home = ({navigation, addToCart}) => {
                 p={1}
                 borderRadius="md"
                 onPress={() => {
-                  addToCart([item]);
                   navigation.navigate('Cart', {product: item});
                 }}>
                 addToCart
@@ -121,12 +117,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
-  cart: state.cartReducer.cartItems,
-});
-
-const mapDispatchToProps = {
-  addToCart,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
