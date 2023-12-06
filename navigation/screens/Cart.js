@@ -1,16 +1,21 @@
 import React from 'react';
-import {View, Text, Image, HStack, VStack, Button} from 'native-base';
+import {Text, Image, HStack, VStack, Button} from 'native-base';
 import {
-  incrementAmmountItem,
-  decrementAmmountItem,
-  quantity,
+  incrementAmountItem,
+  decrementAmountItem,
+  removeProduct,
 } from '../../src/redux/product/productSlice';
 import {useSelector, useDispatch} from 'react-redux';
 
 function Cart({route}) {
-  const {product} = route.params;
   const dispatch = useDispatch();
+  const product = route.params.product;
   const quantity = useSelector(state => state.product.quantity);
+
+  const handleRemoveFromCart = () => {
+    console.log('Removing product with id:', product.id);
+    dispatch(removeProduct(product.id));
+  };
 
   return (
     <VStack p="3" bg="white" shadow="3">
@@ -27,22 +32,22 @@ function Cart({route}) {
             {product.category}
           </Text>
           <Text>${product.price}</Text>
-          <Button bg="red.500" p="1" w="2/3">
-            Remmove
+          <Button bg="red.400" p="1" onPress={handleRemoveFromCart}>
+            Remove
           </Button>
         </VStack>
         <VStack alignItems="center">
           <Button
             bg="blue.400"
             p="2"
-            onPress={() => dispatch(incrementAmmountItem())}>
+            onPress={() => dispatch(incrementAmountItem())}>
             +
           </Button>
           <Text>{quantity}</Text>
           <Button
             bg="blue.400"
             p="2"
-            onPress={() => dispatch(decrementAmmountItem())}>
+            onPress={() => dispatch(decrementAmountItem())}>
             -
           </Button>
         </VStack>

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {getProducts} from '../../src/service/apiService';
+import React, {useEffect} from 'react';
+import {fetchProducts} from '../../src/redux/product/productSlice';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,79 +8,81 @@ import {
 } from 'react-native';
 import {Text, HStack, View, Image, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Home = ({navigation}) => {
-  const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const jsonData = await getProducts();
-      setData(jsonData);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {products, status, error} = useSelector(state => state.product);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (status === 'idle') {
+      dispatch(fetchProducts()).catch(error => {
+        console.error('Error fetching products:', error);
+      });
+    }
+  }, [dispatch, status]);
+
+  if (status === 'loading') {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
+  if (status === 'failed') {
+    return (
+      <View style={styles.container}>
+        <Text>Error fetching products: {error}</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <Text textTransform="uppercase" fontSize="sm" fontWeight="bold">
         All
       </Text>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <FlatList
-          data={data}
-          keyExtractor={({id}) => id}
-          numColumns={2}
-          renderItem={({item}) => (
-            <View style={styles.itemContainer}>
-              <View style={styles.imageContainer}>
-                <Text>{item.category}</Text>
-                <TouchableHighlight
-                  onPress={() =>
-                    navigation.navigate('Detail', {product: item})
-                  }>
-                  <Image
-                    style={styles.image}
-                    source={{uri: `${item.image}`}}
-                    resizeMode="contain"
-                    alt=""
-                  />
-                </TouchableHighlight>
-              </View>
-              <HStack space={1}>
-                <Icon name="star" color="gold" />
-                <Icon name="star" color="gold" />
-                <Icon name="star" color="gold" />
-                <Icon name="star" color="gold" />
-                <Icon name="star" color="gold" />
-              </HStack>
-              <Text>{item.price}$</Text>
-              <Button
-                _text={{
-                  color: 'white',
-                }}
-                shadow="4"
-                bg="blue.400"
-                p={1}
-                borderRadius="md"
-                onPress={() => {
-                  navigation.navigate('Cart', {product: item});
-                }}>
-                addToCart
-              </Button>
+      <FlatList
+        data={products}
+        keyExtractor={({id}) => id.toString()}
+        numColumns={2}
+        renderItem={({item}) => (
+          <View style={styles.itemContainer}>
+            <View style={styles.imageContainer}>
+              <Text>{item.category}</Text>
+              <TouchableHighlight
+                onPress={() => navigation.navigate('Detail', {product: item})}>
+                <Image
+                  style={styles.image}
+                  source={{uri: `${item.image}`}}
+                  resizeMode="contain"
+                  alt=""
+                />
+              </TouchableHighlight>
             </View>
-          )}
-        />
-      )}
+            <HStack space={1}>
+              <Icon name="star" color="gold" />
+              <Icon name="star" color="gold" />
+              <Icon name="star" color="gold" />
+              <Icon name="star" color="gold" />
+              <Icon name="star" color="gold" />
+            </HStack>
+            <Text>{item.price}$</Text>
+            <Button
+              _text={{
+                color: 'white',
+              }}
+              shadow="4"
+              bg="blue.400"
+              p={1}
+              borderRadius="md"
+              onPress={() => navigation.navigate('Cart', {product: item})}>
+              addToCart
+            </Button>
+          </View>
+        )}
+      />
     </View>
   );
 };
