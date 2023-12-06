@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {fetchProducts} from '../../src/redux/product/productSlice';
+import {fetchProducts, addProduct} from '../../src/redux/product/productSlice';
 import {
   ActivityIndicator,
   FlatList,
@@ -77,7 +77,7 @@ const Home = ({navigation}) => {
               bg="blue.400"
               p={1}
               borderRadius="md"
-              onPress={() => navigation.navigate('Cart', {product: item})}>
+              onPress={() => dispatch(addProduct(item))}>
               addToCart
             </Button>
           </View>
