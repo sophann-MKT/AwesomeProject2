@@ -3,7 +3,7 @@ import {Text, Image, HStack, VStack, Button, FlatList} from 'native-base';
 import {
   incrementAmountItem,
   decrementAmountItem,
-  removeProduct,
+  removeItem,
 } from '../../src/redux/product/productSlice';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -14,7 +14,7 @@ function Cart() {
 
   const handleRemoveFromCart = productId => {
     console.log('Removing product with id:', productId);
-    dispatch(removeProduct(productId));
+    dispatch(removeItem(productId));
   };
 
   const handleIncrement = () => {
@@ -23,6 +23,21 @@ function Cart() {
 
   const handleDecrement = () => {
     dispatch(decrementAmountItem());
+  };
+
+  const calculateGoodsTotal = () => {
+    productsInCart.reduce(
+      (total, product) => total + product.price * quantity,
+      0,
+    );
+  };
+
+  const calculateDeliveryTotal = () => {
+    quantity;
+  };
+
+  const calculateTotalPrice = () => {
+    calculateGoodsTotal() + calculateDeliveryTotal();
   };
 
   return (
@@ -84,21 +99,6 @@ function Cart() {
       </HStack>
     </VStack>
   );
-
-  function calculateGoodsTotal() {
-    return productsInCart.reduce(
-      (total, product) => total + product.price * quantity,
-      0,
-    );
-  }
-
-  function calculateDeliveryTotal() {
-    return quantity;
-  }
-
-  function calculateTotalPrice() {
-    return calculateGoodsTotal() + calculateDeliveryTotal();
-  }
 }
 
 export default Cart;

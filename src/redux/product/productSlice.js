@@ -22,10 +22,13 @@ export const productSlice = createSlice({
     error: null,
   },
   reducers: {
-    addProduct: (state, action) => {
-      state.products.push(action.payload);
+    addItem: (state, action) => {
+      const existingItem = state.products.find(p => p.id === action.payload.id);
+      if (!existingItem) {
+        state.products.push(action.payload);
+      }
     },
-    removeProduct: (state, action) => {
+    removeItem: (state, action) => {
       state.products = state.products.filter(
         product => product.id !== action.payload,
       );
@@ -56,11 +59,7 @@ export const productSlice = createSlice({
   },
 });
 
-export const {
-  addProduct,
-  removeProduct,
-  incrementAmountItem,
-  decrementAmountItem,
-} = productSlice.actions;
+export const {addItem, removeItem, incrementAmountItem, decrementAmountItem} =
+  productSlice.actions;
 
 export default productSlice.reducer;

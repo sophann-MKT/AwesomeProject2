@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {fetchProducts, addProduct} from '../../src/redux/product/productSlice';
+import {fetchProducts, addItem} from '../../src/redux/product/productSlice';
 import {
   ActivityIndicator,
   FlatList,
@@ -9,6 +9,7 @@ import {
 import {Text, HStack, View, Image, Button} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch, useSelector} from 'react-redux';
+import ProductFilter from '../productDetails/ProductFilter';
 
 const Home = ({navigation}) => {
   const {products, status, error} = useSelector(state => state.product);
@@ -40,9 +41,7 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text textTransform="uppercase" fontSize="sm" fontWeight="bold">
-        All
-      </Text>
+      <ProductFilter />
       <FlatList
         data={products}
         keyExtractor={({id}) => id.toString()}
@@ -77,7 +76,7 @@ const Home = ({navigation}) => {
               bg="blue.400"
               p={1}
               borderRadius="md"
-              onPress={() => dispatch(addProduct(item))}>
+              onPress={() => dispatch(addItem(item))}>
               addToCart
             </Button>
           </View>
