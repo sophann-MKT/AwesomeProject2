@@ -21,7 +21,7 @@ const Home = ({navigation}) => {
         console.error('Error fetching products:', error);
       });
     }
-  }, [dispatch, status]);
+  }, [status]);
 
   if (status === 'loading') {
     return (

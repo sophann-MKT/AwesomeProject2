@@ -7,6 +7,7 @@ import {
 } from '../../src/redux/product/productSlice';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 function Cart() {
   const dispatch = useDispatch();
   const productsInCart = useSelector(state => state.product.cart);
@@ -51,41 +52,39 @@ function Cart() {
         data={productsInCart}
         keyExtractor={item => item.id.toString()}
         renderItem={({item: productInCart}) => (
-          <>
-            <VStack mt="2" p="2" space="2">
-              <HStack key={productInCart.id} justifyContent="space-around">
-                <Image
-                  source={{uri: `${productInCart.image}`}}
-                  resizeMode="contain"
-                  alt=""
-                  width={70}
-                  height={70}
-                />
-                <VStack>
-                  <Text textTransform="uppercase" fontWeight="bold">
-                    {productInCart.category}
-                  </Text>
-                  <Text>${productInCart.price}</Text>
-                  <Button
-                    bg="red.400"
-                    p="1"
-                    w="2/3"
-                    onPress={() => handleRemoveFromCart(productInCart.id)}>
-                    Remove
-                  </Button>
-                </VStack>
-                <VStack alignItems="center">
-                  <Button bg="blue.400" p="2" onPress={handleIncrement}>
-                    +
-                  </Button>
-                  <Text>{quantity}</Text>
-                  <Button bg="blue.400" p="2" onPress={handleDecrement}>
-                    -
-                  </Button>
-                </VStack>
-              </HStack>
-            </VStack>
-          </>
+          <VStack mt="2" p="2" space="2">
+            <HStack key={productInCart.id} justifyContent="space-around">
+              <Image
+                source={{uri: `${productInCart.image}`}}
+                resizeMode="contain"
+                alt=""
+                width={70}
+                height={70}
+              />
+              <VStack>
+                <Text textTransform="uppercase" fontWeight="bold">
+                  {productInCart.category}
+                </Text>
+                <Text>${productInCart.price}</Text>
+                <Button
+                  bg="red.400"
+                  p="1"
+                  w="2/3"
+                  onPress={() => handleRemoveFromCart(productInCart.id)}>
+                  Remove
+                </Button>
+              </VStack>
+              <VStack alignItems="center">
+                <Button bg="blue.400" p="2" onPress={handleIncrement}>
+                  +
+                </Button>
+                <Text>{quantity}</Text>
+                <Button bg="blue.400" p="2" onPress={handleDecrement}>
+                  -
+                </Button>
+              </VStack>
+            </HStack>
+          </VStack>
         )}
       />
       <HStack space="2" justifyContent="space-between">
