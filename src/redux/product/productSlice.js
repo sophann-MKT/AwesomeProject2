@@ -17,21 +17,20 @@ export const productSlice = createSlice({
   name: 'product',
   initialState: {
     products: [],
+    cart: [],
     quantity: 1,
     status: 'idle',
     error: null,
   },
   reducers: {
     addItem: (state, action) => {
-      const existingItem = state.products.find(p => p.id === action.payload.id);
+      const existingItem = state.cart.find(p => p.id === action.payload.id);
       if (!existingItem) {
-        state.products.push(action.payload);
+        state.cart.push(action.payload);
       }
     },
     removeItem: (state, action) => {
-      state.products = state.products.filter(
-        product => product.id !== action.payload,
-      );
+      state.cart = state.cart.filter(product => product.id !== action.payload);
     },
     incrementAmountItem: state => {
       state.quantity += 1;

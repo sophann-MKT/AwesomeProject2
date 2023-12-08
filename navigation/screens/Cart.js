@@ -6,10 +6,10 @@ import {
   removeItem,
 } from '../../src/redux/product/productSlice';
 import {useSelector, useDispatch} from 'react-redux';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 function Cart() {
   const dispatch = useDispatch();
-  const productsInCart = useSelector(state => state.product.products);
+  const productsInCart = useSelector(state => state.product.cart);
   const quantity = useSelector(state => state.product.quantity);
 
   const handleRemoveFromCart = productId => {
@@ -26,21 +26,26 @@ function Cart() {
   };
 
   const calculateGoodsTotal = () => {
-    productsInCart.reduce(
+    return productsInCart.reduce(
       (total, product) => total + product.price * quantity,
       0,
     );
   };
 
   const calculateDeliveryTotal = () => {
-    quantity;
+    return quantity;
   };
 
   const calculateTotalPrice = () => {
-    calculateGoodsTotal() + calculateDeliveryTotal();
+    return calculateGoodsTotal() + calculateDeliveryTotal();
   };
 
-  return (
+  return productsInCart.length === 0 ? (
+    <VStack flex={1} alignItems="center" mt="10">
+      <Text>Your Cart is Empty</Text>
+      <Icon name="shopping-cart"></Icon>
+    </VStack>
+  ) : (
     <VStack p="3" bg="white" shadow="3">
       <FlatList
         data={productsInCart}
